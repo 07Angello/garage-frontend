@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import './Maintenance.css';
 import { startingDeleteMaintenance } from '../../../../../redux/actions/maintenance';
-
+import ReactTooltip from 'react-tooltip';
 export const Maintenance = ({ maintenances }) => {
 
     const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export const Maintenance = ({ maintenances }) => {
 
     return (
         <div>
+            <ReactTooltip type="info" place="top" effect="solid" />
             {
                 maintenances.length === 0 ? (<h5 className="text-center mt-5">No maintenance YET...</h5>) : (
                     <table className="table  table-hover">
@@ -27,7 +28,7 @@ export const Maintenance = ({ maintenances }) => {
                         <tbody>
                         {
                             maintenances.map((maintenance) => (
-                                <tr>
+                                <tr  data-tip={`${ maintenance.creationDate }`}>
                                     <td>{ maintenance.description }</td>
                                     <td>{ maintenance.mechanic }</td>
                                     <td>${ maintenance.costPrice }</td>

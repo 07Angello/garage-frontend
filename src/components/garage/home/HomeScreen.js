@@ -13,6 +13,12 @@ export const HomeScreen = () => {
         dispatch( startGettingCustomersFiltered('ALL') );
     }, [ dispatch ]);
 
+    const initialValue = {
+        filter: ''
+    }
+    const [stateFilter, setStateFilter] = useState(initialValue);
+    const { filter } = stateFilter;
+
     const initialCustomerForm = {
         name: ''
     }
@@ -35,8 +41,22 @@ export const HomeScreen = () => {
         });
     }
 
+    const handleFilterChange = ({ target }) => {
+        setStateFilter({
+            ...stateCustomerForm,
+            [target.name]: target.value
+        });
+    }
+
     const handleCancelCustomerCreation = () => {
         setStateCustomerForm(initialCustomerForm);
+    }
+
+    const handleSearchCustomer = (event) => {
+        event.preventDefault();
+        
+        const filtering = filter.length === 0 ? 'ALL' : filter;
+        dispatch( startGettingCustomersFiltered(filtering) );
     }
 
     return (
@@ -46,12 +66,17 @@ export const HomeScreen = () => {
                     <div className="col-md-7">
 
                         <div className="d-flex flex-row justify-content-end align-items-center mb-3">
+                            <form className="w-100"
+                            onSubmit={ handleSearchCustomer }>
                             <div className="input-group col-md-9">
-                                <input type="text" className="form-control" placeholder="Customer filter..." aria-label="Recipient's username" aria-describedby="button-addon2" />
+                                <input type="text" className="form-control" name="filter" onChange={ handleFilterChange } value={ filter } 
+                                placeholder="Customer filter..." aria-label="Recipient's username" aria-describedby="button-addon2" />
                                 <div className="input-group-append">
-                                    <button className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                                    <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
                                 </div>
                             </div>
+                            </form>
+                            
                             <div className="col-md-3">
                                 <button type="button" className="btn btn-outline-primary"
                                 data-toggle="collapse" data-target="#create-user">Create User</button>

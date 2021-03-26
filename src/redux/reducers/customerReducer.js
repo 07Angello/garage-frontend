@@ -99,7 +99,26 @@ export const customerReducer = (state = initialState, action) => {
                 })
             });
 
+        case types.customerDeleteMaintenance:
+            return produce(state, (draft) => {
+                draft.customers.map((customer) => {
+                    if (customer._id === action.payload.car.customer) {
+                        customer.cars.map((car) => {
+                            if ( car._id === action.payload.car._id) { 
+                                for( let i = 0; i < car.maintenances.length; i++) { 
+                                    if ( car.maintenances[i]._id === action.payload._id) { 
+                                        return car.maintenances.splice(i, 1); 
+                                    }
+                                }
+                                return draft;
+                            }
+                        })
+                        return draft;
+                    }
 
+                    return draft;
+                })
+            });
 
     
         default:

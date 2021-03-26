@@ -73,7 +73,7 @@ export const Customer = ({ customer }) => {
                         </button>
                         <div className="dropdown-menu">
                             <b onClick={ handleCreateNewCar } className="dropdown-item"><i className="bi bi-file-plus-fill"></i> Add Car</b>
-                            <b className="dropdown-item"><i className="bi bi-pencil mr-1"></i> Edit Customer</b>
+                            {/* <b className="dropdown-item"><i className="bi bi-pencil mr-1"></i> Edit Customer</b> */}
                             <b onClick={ handleDeleteCustomer } className="dropdown-item"><i className="bi bi-trash mr-1"></i> Delete Customer</b>
                         </div>
                     </div>
@@ -84,13 +84,13 @@ export const Customer = ({ customer }) => {
                                 <h5 className="carsNumber"
                                     data-toggle="collapse" data-target={`#customer-${customer._id}`}
                                 >
-                                    { customer.cars.length } Car
+                                    { customer.cars.length } Car <i class="bi bi-caret-down-fill"></i>
                                 </h5>
                             ) : (
                                 <h5 className="carsNumber"
                                     data-toggle="collapse" data-target={`#customer-${customer._id}`}
                                 >
-                                    { customer.cars.length } Cars
+                                    { customer.cars.length } Cars <i class="bi bi-caret-down-fill"></i>
                                 </h5>
                             )
                         }

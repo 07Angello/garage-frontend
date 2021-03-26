@@ -87,12 +87,14 @@ export const Car = ({ car }) => {
                     data-toggle="collapse" data-target={`#maintenance-${car._id}`}>
                         <i className="bi bi-clipboard-plus"></i>
                     </button>
+                    { /* 
                     <button type="button" className="btn btn-warning btn-sm mr-2 mb-2 mt-2"  disabled={isMaintenanceAdding}>
                         <i className="bi bi-pencil-fill"></i>
                     </button>
+                    */ }
                     <button type="button" className="btn btn-info btn-sm mr-2 mb-2 mt-2"
-                    data-toggle="collapse" data-target={`#car-${car._id}`}  disabled={isMaintenanceAdding}>
-                        <i className="bi bi-list-check"></i>
+                    data-toggle="collapse" data-target={`#car-${car._id}`}  disabled={isMaintenanceAdding}  data-tip={`${ car.maintenances.length } Maintenances `}>
+                        { car.maintenances.length } <i className="bi bi-tools"></i>
                     </button>
                     <button onClick={ handleDeleteCar } type="button" className="btn btn-danger btn-sm mb-2 mt-2"  disabled={isMaintenanceAdding}>
                         <i className="bi bi-trash-fill"></i>
@@ -103,7 +105,7 @@ export const Car = ({ car }) => {
 
             {
                 isMaintenanceAdding ? (
-                    <div className="collapse w-100" id={`maintenance-${car._id}`} style={{ backgroundColor: "#fafafa" }}>
+                    <div className="w-100" style={{ backgroundColor: "#fafafa" }}>
                         <h5>New Maintenance for { car.make } { car.model }</h5>
                         <form
                         onSubmit={ handleSaveCarMaintenance }>

@@ -17,8 +17,6 @@ export const GarageScreen = () => {
         <div>
             <Navbar />
             <HomeScreen />
-            <button onClick={ handleOpenModal } type="button" className="btn btn-outline-success float-left-btn">Success</button>
-            <CustomerModal />
         </div>
     )
 }
