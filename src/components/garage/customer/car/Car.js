@@ -4,18 +4,30 @@ import { Maintenance } from './maintenance/Maintenance';
 import { maintenanceOpenModal } from '../../../../redux/actions/maintenanceModal';
 import { MaintenanceModal } from './maintenance/maintenanceModal/MaintenanceModal';
 import{ startAddNewMaintenance } from '../../../../redux/actions/maintenance';
-
+import Swal from 'sweetalert2';
+import { startingDeleteCar } from '../../../../redux/actions/car';
 
 export const Car = ({ car }) => {
     const dispatch = useDispatch();
 
     const [isMaintenanceAdding, setIsMaintenanceAdding] = useState(false);
 
+    var currentDate = new Date();
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
     const initialMaintenanceValues = {
         description: '',
         mechanic: '',
         costPrice: 0,
-        cid: car._id
+        cid: car._id,
+        creationDate: currentDate.toLocaleDateString('en-us', options),
     }
 
     const [maintenanceFormValue, setMaintenanceFormValue] = useState(initialMaintenanceValues);
@@ -34,42 +46,59 @@ export const Car = ({ car }) => {
     }
 
     const handleSaveCarMaintenance = (event) => {
-        event.preventDefault();
 
         setIsMaintenanceAdding(false);
         dispatch( startAddNewMaintenance( maintenanceFormValue ) );
     }
 
     const handleAddMaintenance = () => {
-        setIsMaintenanceAdding(!isMaintenanceAdding);
-
+        console.log(initialMaintenanceValues);
+        setIsMaintenanceAdding(true);
         setMaintenanceFormValue(initialMaintenanceValues);
+    }
+
+    const handleCancel = () => {
+        setIsMaintenanceAdding(false);
+        setMaintenanceFormValue(initialMaintenanceValues);
+    }
+
+    const handleDeleteCar = () => {
+        Swal.fire({
+            title: 'Delete Car?',
+            text: 'Are you sure you want to delete this car?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.value) {
+                dispatch( startingDeleteCar( car._id ) );
+            }
+        });
     }
 
     return (
         <div className="car-card">
             <div className="d-flex flex-row justify-content-between align-items-center">
                 <h5>{ car.make } { car.model } { car.year }, { car.plate }</h5>
-                {
-                    isMaintenanceAdding ? (<></>) : (
-                        <div>
-                            <button onClick={ handleAddMaintenance } type="button" className="btn btn-success btn-sm mr-2 mb-2 mt-2"
-                            data-toggle="collapse" data-target={`#maintenance-${car._id}`}>
-                                <i className="bi bi-clipboard-plus"></i>
-                            </button>
-                            <button type="button" className="btn btn-warning btn-sm mr-2 mb-2 mt-2">
-                                <i className="bi bi-pencil-fill"></i>
-                            </button>
-                            <button type="button" class="btn btn-info btn-sm mr-2 mb-2 mt-2"
-                            data-toggle="collapse" data-target={`#car-${car._id}`}>
-                                <i className="bi bi-list-check"></i>
-                            </button>
-                            <button type="button" className="btn btn-danger btn-sm mb-2 mt-2">
-                                <i className="bi bi-trash-fill"></i>
-                            </button>
-                        </div>
-                    )
-                }
+
+                <div>
+                    <button onClick={ handleAddMaintenance } type="button" className="btn btn-success btn-sm mr-2 mb-2 mt-2"
+                    data-toggle="collapse" data-target={`#maintenance-${car._id}`}>
+                        <i className="bi bi-clipboard-plus"></i>
+                    </button>
+                    <button type="button" className="btn btn-warning btn-sm mr-2 mb-2 mt-2"  disabled={isMaintenanceAdding}>
+                        <i className="bi bi-pencil-fill"></i>
+                    </button>
+                    <button type="button" className="btn btn-info btn-sm mr-2 mb-2 mt-2"
+                    data-toggle="collapse" data-target={`#car-${car._id}`}  disabled={isMaintenanceAdding}>
+                        <i className="bi bi-list-check"></i>
+                    </button>
+                    <button onClick={ handleDeleteCar } type="button" className="btn btn-danger btn-sm mb-2 mt-2"  disabled={isMaintenanceAdding}>
+                        <i className="bi bi-trash-fill"></i>
+                    </button>
+                </div>
+
             </div>
 
             {
@@ -118,8 +147,10 @@ export const Car = ({ car }) => {
 
                                 ></input>
                             </div>
-                            <button type="submit" class="btn btn-outline-success btn-sm mr-2">Save</button>
-                            <button onClick={ handleAddMaintenance } type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
+                            <button type="submit" className="btn btn-outline-success btn-sm mr-2"
+                            data-toggle="collapse" data-target={`#car-${car._id}`}>Save</button>
+                            <button onClick={ handleCancel } type="button" className="btn btn-outline-danger btn-sm"
+                            data-toggle="collapse" data-target={`#car-${car._id}`}>Cancel</button>
 
                         </form>
                         <br />

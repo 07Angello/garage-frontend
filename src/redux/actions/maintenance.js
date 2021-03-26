@@ -25,7 +25,8 @@ export const startingDeleteMaintenance = ( maintenanceId ) => {
         if (!OK && Message.length > 0 && Message) {
             toast.warning( Message );
         } else {
-            dispatch( deleteMaintenance( Data._id ) );
+            console.log( Data );
+            dispatch( deleteMaintenance( Data ) );
 
             toast.success('The maintenance has been removed.');
         }
@@ -51,9 +52,9 @@ export const maintenanceLogout = () => ({
     type: types.maintenancesLogout
 });
 
-const deleteMaintenance = ( maintenanceId ) => ({
+const deleteMaintenance = ( maintenance ) => ({
     type: types.customerDeleteMaintenance,
-    payload: maintenanceId
+    payload: maintenance
 });
 
 

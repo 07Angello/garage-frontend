@@ -24,7 +24,7 @@ export const startingDeleteCar = ( carId ) => {
         if (!OK && Message.length > 0 && Message) {
             toast.warning( Message );
         } else {
-            dispatch( deleteCar( Data._id ) );
+            dispatch( deleteCar( Data ) );
 
             toast.success('The car has been removed.');
         }
@@ -50,9 +50,9 @@ export const carLogout = () => ({
     type: types.carsLogout
 });
 
-const deleteCar = ( carId ) => ({
+const deleteCar = ( car ) => ({
     type: types.customerDeleteCar,
-    payload: carId
+    payload: car
 });
 
 

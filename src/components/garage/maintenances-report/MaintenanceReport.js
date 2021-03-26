@@ -1,10 +1,11 @@
 import React from 'react';
+import { Navbar } from '../../ui/Navbar';
 import './MaintenanceReport.css';
 
 export const MaintenanceReport = () => {
     return (
         <div>
-            <h1>Reporte de mantenimientos</h1>
+            <Navbar />
         </div>
     )
 }

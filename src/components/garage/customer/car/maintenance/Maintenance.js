@@ -1,8 +1,16 @@
 import React from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import './Maintenance.css'
+import { useDispatch } from 'react-redux';
+import './Maintenance.css';
+import { startingDeleteMaintenance } from '../../../../../redux/actions/maintenance';
 
 export const Maintenance = ({ maintenances }) => {
+
+    const dispatch = useDispatch();
+
+    const handleDeleteMaintenance = ( maintenanceId ) => {
+        dispatch( startingDeleteMaintenance( maintenanceId ) );
+    }
+
     return (
         <div>
             {
@@ -13,22 +21,24 @@ export const Maintenance = ({ maintenances }) => {
                                 <th scope="col">Description</th>
                                 <th scope="col">Mechanic</th>
                                 <th scope="col">Cost Price</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                    <TransitionGroup>
-                    {
-                        maintenances.map((maintenance) => (
-                            <CSSTransition key={ maintenance._id } timeout={ 300 } classNames="post">
+                        {
+                            maintenances.map((maintenance) => (
                                 <tr>
                                     <td>{ maintenance.description }</td>
                                     <td>{ maintenance.mechanic }</td>
                                     <td>${ maintenance.costPrice }</td>
+                                    <td>
+                                        <button onClick={ () => handleDeleteMaintenance( maintenance._id ) } type="button" class="btn btn-outline-danger">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </td>
                                 </tr>
-                            </CSSTransition>
-                        ))
-                    }
-                    </TransitionGroup>
+                            ))
+                        }
                         </tbody>
                     </table>
                 )

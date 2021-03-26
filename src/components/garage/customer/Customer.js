@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { startAddNewCar } from '../../../redux/actions/car';
-//import Swal from 'sweetalert2';
-//import defaultProfilePhoto from '../../../assets/avatar.svg';
-//import { startEditingCustomer, startingDeleteCustomer } from '../../../redux/actions/customer';
+import Swal from 'sweetalert2';
 import { Car } from './car/Car';
 import './Customer.css';
+import { startingDeleteCustomer } from '../../../redux/actions/customer'
 
 export const Customer = ({ customer }) => {
     const dispatch = useDispatch();
@@ -23,56 +22,7 @@ export const Customer = ({ customer }) => {
     const [stateCarForm, setStateCarForm] = useState(initialCarForm);
     const [stateIsCarAdding, setStateIsCarAdding] = useState(false);
 
-    const { make, model, plate, year } = stateCarForm;
-
-
-    // const [isEditing, setIsEditing] = useState(false);
-
-    // const handleEditCustomer = ( customerId ) => {
-    //     setStateCustomer({
-    //         ...stateCustomer,
-    //         name: customer.content
-    //     });
-
-    //     setIsEditing(true);
-    // }
-
-    // const handleDeleteCustomer = ( customerId ) => {
-    //     Swal.fire({
-    //         title: 'Delete Customer?',
-    //         text: 'Are you sure you want to delete this customer?',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'Yes, delete it!',
-    //         cancelButtonText: 'No, keep it'
-    //     }).then((result) => {
-    //         if (result.value) {
-    //             dispatch( startingDeleteCustomer( customerId ) );
-    //         }
-    //     });
-    // }
-
-    // const handleSaveEditedCustomer = (e) => {
-    //     e.preventDefault();
-
-    //     if(stateCustomer.content.length === 0 || stateCustomer.content === '') {
-    //         return;
-    //     }
-
-    //     setStateCustomer({
-    //         ...stateCustomer,
-    //         name: customer.name,
-    //         cars: customer.cars
-    //     });
-
-    //     setIsEditing(false);
-    //     dispatch( startEditingCustomer( stateCustomer ) );
-    // }
-
-    // const cancelEditCustomer = () => {
-    //     setIsEditing(false);
-    // }
-    
+    const { make, model, plate, year } = stateCarForm;    
 
     const handleInputChange = ({ target }) => {
         setStateCarForm({
@@ -97,6 +47,21 @@ export const Customer = ({ customer }) => {
         setStateIsCarAdding( false );
     }
 
+    const handleDeleteCustomer = () => {
+        Swal.fire({
+            title: 'Delete Customer?',
+            text: 'Are you sure you want to delete this customer?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.value) {
+                dispatch( startingDeleteCustomer( customer._id ) );
+            }
+        });
+    }
+
     return (
         <div className="card mt-3">
             <div className="card-body">
@@ -107,9 +72,9 @@ export const Customer = ({ customer }) => {
                             <i className="bi bi-gear-fill"></i>
                         </button>
                         <div className="dropdown-menu">
-                            <b onClick={ handleCreateNewCar } className="dropdown-item"><i class="bi bi-file-plus-fill"></i> Add Car</b>
-                            <b className="dropdown-item"><i className="bi bi-pencil mr-1"></i> Edit Post</b>
-                            <b className="dropdown-item"><i className="bi bi-trash mr-1"></i> Delete Post</b>
+                            <b onClick={ handleCreateNewCar } className="dropdown-item"><i className="bi bi-file-plus-fill"></i> Add Car</b>
+                            <b className="dropdown-item"><i className="bi bi-pencil mr-1"></i> Edit Customer</b>
+                            <b onClick={ handleDeleteCustomer } className="dropdown-item"><i className="bi bi-trash mr-1"></i> Delete Customer</b>
                         </div>
                     </div>
                     <div className="w-100 d-flex flex-row justify-content-between align-items-center">
@@ -191,8 +156,8 @@ export const Customer = ({ customer }) => {
 
                                         ></input>
                                     </div>
-                                    <button type="submit" class="btn btn-outline-success btn-sm mr-2">Save</button>
-                                    <button onClick={ handleCancelCarSaving } type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
+                                    <button type="submit" className="btn btn-outline-success btn-sm mr-2">Save</button>
+                                    <button onClick={ handleCancelCarSaving } type="button" className="btn btn-outline-danger btn-sm">Cancel</button>
 
                                 </form>
                             </div>

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { startGettingCustomersFiltered } from '../../../redux/actions/customer';
 import { Customer } from '../customer/Customer';
+import { startAddNewCustomer } from '../../../redux/actions/customer'
 import './HomeScreen.css';
 
 export const HomeScreen = () => {
@@ -12,8 +13,31 @@ export const HomeScreen = () => {
         dispatch( startGettingCustomersFiltered('ALL') );
     }, [ dispatch ]);
 
+    const initialCustomerForm = {
+        name: ''
+    }
+    const [stateCustomerForm, setStateCustomerForm] = useState(initialCustomerForm);
+    const { name } = stateCustomerForm;
 
     const { customers } = useSelector(state => state.customer);
+
+    const handleSaveCustomer = (event) => {
+        event.preventDefault();
+
+        dispatch( startAddNewCustomer( stateCustomerForm ) );
+        setStateCustomerForm(initialCustomerForm);
+    }
+
+    const handleInputChange = ({ target }) => {
+        setStateCustomerForm({
+            ...stateCustomerForm,
+            [target.name]: target.value
+        });
+    }
+
+    const handleCancelCustomerCreation = () => {
+        setStateCustomerForm(initialCustomerForm);
+    }
 
     return (
         <div className="posts-container mb-3">
@@ -21,15 +45,42 @@ export const HomeScreen = () => {
                 <div className="row" style={{ display: 'flex', justifyContent: 'center' }}>
                     <div className="col-md-7">
 
-                    
-                        
-                    <div className="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Customer filter..." aria-label="Recipient's username" aria-describedby="button-addon2" />
-                        <div className="input-group-append">
-                            <button className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                        <div className="d-flex flex-row justify-content-end align-items-center mb-3">
+                            <div className="input-group col-md-9">
+                                <input type="text" className="form-control" placeholder="Customer filter..." aria-label="Recipient's username" aria-describedby="button-addon2" />
+                                <div className="input-group-append">
+                                    <button className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <button type="button" className="btn btn-outline-primary"
+                                data-toggle="collapse" data-target="#create-user">Create User</button>
+                            </div>
                         </div>
-                    </div>
+                        <div className="collapse w-100 mb-5 px-5" id="create-user" style={{ backgroundColor: "#fafafa" }}>
+                            <form
+                            onSubmit={ handleSaveCustomer } className="py-3">
+                                <div className="form-group">
+                                    <label>Customer Name</label>
+                                    <input
+                                        type="text"
+                                        className={`form-control`}
+                                        placeholder="Customer Name"
+                                        name="name"
+                                        value={ name }
+                                        onChange={ handleInputChange }
+                                        id="nameCustomer"
 
+                                    ></input>
+                                </div>
+                                <button type="submit" className="btn btn-outline-success mr-2"
+                                data-toggle="collapse" data-target="#create-user">Save</button>
+
+                                <button onClick={ handleCancelCustomerCreation } type="button" className="btn btn-outline-danger"
+                                data-toggle="collapse" data-target="#create-user">Cancel</button>
+                            </form>
+                        </div>
+                        
                         {
                             customers.length === 0 ? (<h5 className="text-center mt-5">No customers YET...</h5>) : (
                                 <div>
@@ -45,7 +96,7 @@ export const HomeScreen = () => {
                                 </div>
                             )
                         }
-                    </div>
+                        </div>
                     <br />
                 </div>
             </div>

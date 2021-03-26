@@ -18,15 +18,19 @@ export const Navbar = () => {
     }
 
     const handleWall = () => {
-        history.push("/maintenances");
+        history.push("/maintenance-report");
+    }
+
+    const handleHome = () => {
+        history.push("/");
     }
 
 
     return (
         <div className="navbar bg mb-4 custom-navbar">
 
-            <span className="navbar-brand" onClick={ handleWall } style={{ cursor:'pointer' }}>
-                <img src={ garageLogo } alt="Reactibook" height="33" className="d-inline-block align-middle mr-2"/>
+            <span className="navbar-brand" onClick={ handleHome } style={{ cursor:'pointer' }}>
+                <img src={ garageLogo } alt="Garage" height="33" className="d-inline-block align-middle mr-2"/>
             </span>
 
             
@@ -34,10 +38,10 @@ export const Navbar = () => {
             <div className="btn-group dropdown register-form-x d-flex justify-content-center align-items-center" style={{height: '100%' }}>
                 <button onClick={ handleWall } type="button" className="btn btn-light d-flex justify-content-center align-items-center rounded"
                     style={{ fontWeight: 'bold', marginRight: '10px' }}>
-                    <i className="bi bi-house-door-fill" style={{ fontSize: '20px' }}></i>
+                    <i className="bi bi-tools" style={{ fontSize: '20px' }}></i>
                 </button>
 
-                <button type="button" className="btn btn-light d-flex justify-content-center align-items-center rounded"
+                <button onClick={ handleHome } type="button" className="btn btn-light d-flex justify-content-center align-items-center rounded"
                     style={{ fontWeight: 'bold', marginRight: '10px' }}>
                     <img src={ profilePhoto ? profilePhoto : defaultProfilePhoto } alt="Reactibook" height="30" className="d-inline-block align-middle mr-2" style={{ borderRadius: '50px' }}/>
                     { name }
