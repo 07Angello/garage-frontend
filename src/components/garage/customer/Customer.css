@@ -1,0 +1,11 @@
+.creation-size {
+    font-size: 12px;
+    color: gray;
+}
+.carsNumber {
+    cursor: pointer;
+}
+
+.carsNumber:hover {
+    text-decoration-line: underline;
+}

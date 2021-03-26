@@ -1,0 +1,18 @@
+.posts-container {
+    background-color: #f0f2f5;
+}
+
+.container {
+    max-width: 950px;
+}
+
+.col-md-6 {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.float-left-btn {
+    position: absolute !important;
+    bottom: 20px;
+    left: 20px;
+}
